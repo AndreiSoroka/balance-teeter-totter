@@ -3,7 +3,7 @@
     <div class="battle-ground" :style="battleGroundStyle">
       <div class="start-view" v-if="!isStarted">
         <div v-if="isLose">
-          <h3>Score Game: {{ scoreGame }} Level</h3>
+          <h3 class="title">Score Game: {{ scoreGame }} Level</h3>
           <p>
             <a :href="twitterLink"
                v-if="twitterLink"
@@ -124,7 +124,6 @@ export default {
   },
   created() {
     document.addEventListener('keydown', (event) => {
-      console.log(this.isInitialGame);
       if (this.isLose || this.isInitialGame) {
         // eslint-disable-next-line default-case
         switch (event.code) {
@@ -190,6 +189,10 @@ export default {
 <style scoped lang="scss">
   .playground {
     margin: 1rem 0;
+  }
+
+  .title {
+    margin: 0;
   }
 
   .battle-ground {
