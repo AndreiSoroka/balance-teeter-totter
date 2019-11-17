@@ -1,8 +1,13 @@
 <template>
   <div class="playground">
     <div class="battle-ground">
-      <div class="start-view" @click="toggleStart" v-if="!isStarted">
-        Start
+      <div class="start-view" v-if="!isStarted">
+        <div v-if="isLose">
+          <button @click="startNewGame">New game</button>
+        </div>
+        <div v-else>
+          <button @click="start">Start</button>
+        </div>
       </div>
       <div class="battle-ground__player" v-show="player.figureType && isStarted">
         <item
@@ -27,7 +32,7 @@
         - start/stop the game
       </p>
       <p>
-        <button @click="newGame">Enter</button>
+        <button @click="startNewGame">Enter</button>
         - new game
       </p>
       <p>
@@ -49,6 +54,11 @@ import Libra from './Libra.vue';
 
 export default {
   name: 'Playground',
+  data() {
+    return {
+      isLose: false,
+    };
+  },
   components: {
     Libra,
     Item,
@@ -78,36 +88,64 @@ export default {
     }),
   },
   created() {
+    this.newGame();
+
     document.addEventListener('keydown', (event) => {
       // eslint-disable-next-line default-case
       switch (event.code) {
         case 'ArrowLeft':
+          if (this.isLose) {
+            return;
+          }
           this.moveLeft();
           break;
         case 'ArrowRight':
+          if (this.isLose) {
+            return;
+          }
           this.moveRight();
           break;
         case 'Space':
           this.toggleStart();
           break;
         case 'ArrowDown':
+          if (this.isLose) {
+            return;
+          }
           this.start();
           break;
         case 'Enter':
-          this.newGame();
+          this.startNewGame();
           break;
       }
     });
   },
   methods: {
     toggleStart() {
+      if (this.isLose) {
+        this.startNewGame();
+        return;
+      }
       if (this.isStarted) {
         this.stop();
       } else {
         this.start();
       }
     },
-    ...mapActions(['moveLeft', 'moveRight', 'nextStep', 'start', 'stop', 'newGame']),
+    startNewGame() {
+      this.isLose = false;
+      this.newGame();
+      this.start();
+    },
+    ...mapActions(['moveLeft', 'moveRight', 'start', 'stop', 'newGame']),
+  },
+  watch: {
+    rotate(value) {
+      if (value > 30 || value < -30) {
+        this.isLose = true;
+        this.stop();
+      }
+    },
   },
 };
 </script>
@@ -150,6 +188,5 @@ export default {
     box-sizing: border-box;
     text-align: center;
     font-size: 2rem;
-    cursor: pointer;
   }
 </style>

@@ -46,6 +46,7 @@ export default new Vuex.Store({
       state.timeoutId = value;
     },
     NEW_GAME(state) {
+      state.battleGround.count = 0;
       state.battleGround.player = templateBattleGround();
       state.battleGround.computer = templateBattleGround();
       state.battleGround.history.player = {
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     INCREASE_LEVEL(state) {
       state.battleGround.level += 1;
+    },
+    INCREASE_COUNT(state) {
+      state.battleGround.count += 1;
     },
     PLAYER_MOVE_LEFT(state) {
       state.battleGround.player.position -= 1;
@@ -116,18 +120,19 @@ export default new Vuex.Store({
       }
       commit('PLAYER_MOVE_RIGHT');
     },
-    nextStep({ state, commit, dispatch }) {
+    nextStep({ state, commit }) {
       if (!state.timeoutId) {
         return;
       }
-      if (!state.battleGround.player.figureType) {
-        dispatch('newGame');
-      } else if (state.battleGround.level >= MAP_LEVELS) {
+      if (state.battleGround.level >= MAP_LEVELS) {
         commit('SAVE_HISTORY');
         commit('NEW_FIGURE');
       } else {
-        commit('INCREASE_LEVEL');
+        if (state.battleGround.count) {
+          commit('INCREASE_LEVEL');
+        }
         commit('COMPUTER_MOVE');
+        commit('INCREASE_COUNT');
       }
     },
     start({ commit, dispatch }) {

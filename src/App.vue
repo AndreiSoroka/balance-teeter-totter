@@ -65,6 +65,7 @@ export default {
   }
 
   button {
+    cursor: pointer;
     background: white;
     padding: 5px;
     color: #2c3e50;
