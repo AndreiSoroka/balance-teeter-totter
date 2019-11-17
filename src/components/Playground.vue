@@ -8,7 +8,7 @@
         <item
           class="battle-ground__item"
           :figure="player.figureType"
-          :weight="player.figureSize"
+          :weight="player.figureWeight"
           :style="playerPosition"
         />
       </div>
@@ -16,19 +16,11 @@
         <item
           class="battle-ground__item"
           :figure="computer.figureType"
-          :weight="computer.figureSize"
+          :weight="computer.figureWeight"
           :style="computerPosition"/>
       </div>
     </div>
-    <div
-      class="libra-arm"
-      :style="{transform: `rotate(${rotate/2}deg)`}">
-      test
-    </div>
-    <div class="libra-base">
-      <div class="libra-base__description">{{ ~~(rotate*100)/100 }}</div>
-    </div>
-
+    <libra :rotate="rotate" :history-items="historyItems"/>
     <div>
       <p>
         <button @click="toggleStart">Space</button>
@@ -53,10 +45,14 @@ import {
   mapActions, mapState, mapGetters,
 } from 'vuex';
 import Item from './Item.vue';
+import Libra from './Libra.vue';
 
 export default {
   name: 'Playground',
-  components: { Item },
+  components: {
+    Libra,
+    Item,
+  },
   computed: {
     playerPosition() {
       return {
@@ -74,6 +70,7 @@ export default {
       player: state => state.battleGround.player,
       computer: state => state.battleGround.computer,
       level: state => state.battleGround.level,
+      historyItems: state => state.battleGround.history,
       isStarted: state => !!state.timeoutId,
     }),
     ...mapGetters({
@@ -124,7 +121,6 @@ export default {
     position: relative;
     height: 320px;
     border-bottom: 1px solid red;
-    margin-bottom: 50px;
     background: linear-gradient(#bbb, transparent 1px),
     linear-gradient(90deg, #bbb, transparent 1px);
     background-size: 40px 40px;
@@ -144,32 +140,6 @@ export default {
       width: 50%;
       height: 100%;
       left: 50%;
-    }
-  }
-
-  .libra-arm {
-    transition: 1s;
-
-    &::after {
-      content: "";
-      display: block;
-      height: 10px;
-      background: #2c3e50;
-    }
-  }
-
-  .libra-base {
-    width: 0;
-    height: 0;
-    border: 50px solid transparent;
-    border-bottom: 100px solid #2c3e50;
-    margin: -50px auto 0;
-
-    .libra-base__description {
-      width: 100px;
-      margin: 75px 0 0 -50px;
-      color: white;
-      text-align: center;
     }
   }
 

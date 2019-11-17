@@ -16,7 +16,6 @@ const templateBattleGround = () => ({
   figureType: null,
   figureWeight: null,
   position: 4,
-  history: [],
 });
 
 export default new Vuex.Store({
@@ -61,12 +60,10 @@ export default new Vuex.Store({
     NEW_FIGURE(state) {
       state.battleGround.level = 0;
       state.battleGround.player.figureType = getRandomItem();
-      state.battleGround.player.figureSize = Math.floor(Math.random() * 9) + 1;
-      state.battleGround.player.level = 0;
+      state.battleGround.player.figureWeight = Math.floor(Math.random() * 9) + 1;
       state.battleGround.player.position = 4;
       state.battleGround.computer.figureType = getRandomItem();
-      state.battleGround.computer.figureSize = Math.floor(Math.random() * 9) + 1;
-      state.battleGround.computer.level = 0;
+      state.battleGround.computer.figureWeight = Math.floor(Math.random() * 9) + 1;
       state.battleGround.computer.position = 4;
     },
     INCREASE_LEVEL(state) {
@@ -96,10 +93,10 @@ export default new Vuex.Store({
     },
     SAVE_HISTORY(state) {
       const { player, computer, history } = state.battleGround;
-      history.player.power += (MAP_SIZE - player.position + 1) * player.figureSize;
-      history.player.items.push(player);
-      history.computer.power += (computer.position + 1) * computer.figureSize;
-      history.computer.items.push(computer);
+      history.player.power += (MAP_SIZE - player.position + 1) * player.figureWeight;
+      history.player.items.push({ ...player });
+      history.computer.power += (computer.position + 1) * computer.figureWeight;
+      history.computer.items.push({ ...computer });
     },
   },
   actions: {
