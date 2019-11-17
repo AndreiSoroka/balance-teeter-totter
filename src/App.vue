@@ -50,7 +50,7 @@ export default {
   }
 
   .wrapper {
-    max-width: 700px;
+    max-width: 721px;
     margin: 0 auto;
   }
 
@@ -62,5 +62,13 @@ export default {
   footer {
     margin: 2rem 0 0;
     padding: 10px;
+  }
+
+  button {
+    background: white;
+    padding: 5px;
+    color: #2c3e50;
+    border: 1px solid #9a9eb0;
+    border-radius: 3px;
   }
 </style>
