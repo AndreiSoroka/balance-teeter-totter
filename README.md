@@ -1,19 +1,26 @@
 # balance-teeter-totter
 
-## Project setup
+Demo: https://vue-balance-teeter-totter.herokuapp.com/
+
+### Initialization
+```bash
+git git@github.com:AndreiSoroka/balance-teeter-totter.git;
+cd balance-teeter-totter;
+npm install;
 ```
-npm install
+### Build
+```bash
+// dev server
+npm run serve;
+
+// build
+npm run build;
+
+// buid for heroku
+npm run heroku-postbuild;
+npm start;
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
 
 ### Lints and fixes files
 ```
