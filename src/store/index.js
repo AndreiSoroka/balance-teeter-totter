@@ -135,10 +135,10 @@ export default new Vuex.Store({
         commit('INCREASE_COUNT');
       }
     },
-    start({ commit, dispatch }) {
+    start({ commit, dispatch, getters }) {
       const timeout = setTimeout(() => {
         dispatch('start');
-      }, 1000);
+      }, getters.speedGame);
       commit('SET_TIMEOUT', timeout);
       dispatch('nextStep');
     },
@@ -147,8 +147,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    speedGame() {
-      return 1000;
+    speedGame(state) {
+      const speed = 1000 - state.battleGround.count * 10;
+      return speed > 100 ? speed : 100;
     },
     rotate(state) {
       const { player, computer } = state.battleGround.history;
