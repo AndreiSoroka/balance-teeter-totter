@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import * as items from '../constsItems';
+import * as consts from '../constsItems';
 
 const MAP_SIZE = 8;
 const MAP_LEVELS = 7;
-const ITEMS_ARRAY = Object.values(items);
+const ITEMS_ARRAY = [consts.SQUARE, consts.CIRCLE, consts.TRIANGLE];
 
 function getRandomItem() {
   return ITEMS_ARRAY[Math.floor(Math.random() * ITEMS_ARRAY.length)];
@@ -147,6 +147,20 @@ export default new Vuex.Store({
   getters: {
     speedGame() {
       return 1000;
+    },
+    rotate(state) {
+      const { player, computer } = state.battleGround.history;
+
+      if (player.power === computer.power) return 0;
+
+      const moreOnPlayer = player.power > computer.power;
+
+      const difference = Math.abs(player.power - computer.power);
+      if (difference > consts.MAX_POWER) {
+        return moreOnPlayer ? -consts.MAX_ANGLE - 1 : consts.MAX_ANGLE + 1;
+      }
+
+      return consts.MAX_ANGLE / consts.MAX_POWER * difference * (moreOnPlayer ? 1 : -1);
     },
   },
 });

@@ -20,11 +20,13 @@
           :style="computerPosition"/>
       </div>
     </div>
-    <div class="libra-arm">
+    <div
+      class="libra-arm"
+      :style="{transform: `rotate(${rotate/2}deg)`}">
       test
     </div>
     <div class="libra-base">
-      <div class="libra-base__description">test</div>
+      <div class="libra-base__description">{{ ~~(rotate*100)/100 }}</div>
     </div>
 
     <div>
@@ -44,7 +46,7 @@
 
 <script>
 import {
-  mapActions, mapState,
+  mapActions, mapState, mapGetters,
 } from 'vuex';
 import Item from './Item.vue';
 
@@ -69,6 +71,9 @@ export default {
       computer: state => state.battleGround.computer,
       level: state => state.battleGround.level,
       isStarted: state => !!state.timeoutId,
+    }),
+    ...mapGetters({
+      rotate: 'rotate',
     }),
   },
   created() {
@@ -136,6 +141,7 @@ export default {
   }
 
   .libra-arm {
+    transition: 1s;
 
     &::after {
       content: "";
