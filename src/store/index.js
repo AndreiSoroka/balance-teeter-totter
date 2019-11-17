@@ -27,15 +27,36 @@ export default new Vuex.Store({
       count: 0,
       player: templateBattleGround(),
       computer: templateBattleGround(),
+      history: {
+        player: {
+          power: 0,
+          items: [],
+        },
+        computer: {
+          power: 0,
+          items: [],
+        },
+      },
     },
   },
   mutations: {
     SET_TIMEOUT(state, value) {
+      if (state.timeoutId) {
+        clearTimeout(state.timeoutId);
+      }
       state.timeoutId = value;
     },
     NEW_GAME(state) {
       state.battleGround.player = templateBattleGround();
       state.battleGround.computer = templateBattleGround();
+      state.battleGround.history.player = {
+        power: 0,
+        items: [],
+      };
+      state.battleGround.history.computer = {
+        power: 0,
+        items: [],
+      };
     },
     NEW_FIGURE(state) {
       state.battleGround.level = 0;
@@ -73,6 +94,13 @@ export default new Vuex.Store({
         state.battleGround.computer.position = MAP_SIZE;
       }
     },
+    SAVE_HISTORY(state) {
+      const { player, computer, history } = state.battleGround;
+      history.player.power += (MAP_SIZE - player.position + 1) * player.figureSize;
+      history.player.items.push(player);
+      history.computer.power += (computer.position + 1) * computer.figureSize;
+      history.computer.items.push(computer);
+    },
   },
   actions: {
     newGame({ commit }) {
@@ -98,7 +126,7 @@ export default new Vuex.Store({
       if (!state.battleGround.player.figureType) {
         dispatch('newGame');
       } else if (state.battleGround.level >= MAP_LEVELS) {
-        // commit('SAVE_HISTORY');
+        commit('SAVE_HISTORY');
         commit('NEW_FIGURE');
       } else {
         commit('INCREASE_LEVEL');
@@ -112,8 +140,7 @@ export default new Vuex.Store({
       commit('SET_TIMEOUT', timeout);
       dispatch('nextStep');
     },
-    stop({ state, commit }) {
-      clearTimeout(state.timeoutId);
+    stop({ commit }) {
       commit('SET_TIMEOUT', null);
     },
   },
