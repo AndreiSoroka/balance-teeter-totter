@@ -35,6 +35,10 @@
         - start/stop the game
       </p>
       <p>
+        <button @click="newGame">Enter</button>
+        - new game
+      </p>
+      <p>
         <button @click="moveLeft">Left</button>
         /
         <button @click="moveRight">Right</button>
@@ -92,6 +96,9 @@ export default {
         case 'ArrowDown':
           this.start();
           break;
+        case 'Enter':
+          this.newGame();
+          break;
       }
     });
   },
@@ -103,7 +110,7 @@ export default {
         this.start();
       }
     },
-    ...mapActions(['moveLeft', 'moveRight', 'nextStep', 'start', 'stop']),
+    ...mapActions(['moveLeft', 'moveRight', 'nextStep', 'start', 'stop', 'newGame']),
   },
 };
 </script>
