@@ -44,7 +44,7 @@
 
 <script>
 import {
-  mapActions, mapState, mapGetters,
+  mapActions, mapState,
 } from 'vuex';
 import Item from './Item.vue';
 
@@ -70,9 +70,6 @@ export default {
       level: state => state.battleGround.level,
       isStarted: state => !!state.timeoutId,
     }),
-    ...mapGetters([
-      'speedGame',
-    ]),
   },
   created() {
     document.addEventListener('keydown', (event) => {
@@ -86,6 +83,9 @@ export default {
           break;
         case 'Space':
           this.toggleStart();
+          break;
+        case 'ArrowDown':
+          this.start();
           break;
       }
     });
