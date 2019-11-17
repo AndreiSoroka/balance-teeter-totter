@@ -67,9 +67,15 @@ export default {
   button {
     cursor: pointer;
     background: white;
-    padding: 5px;
+    padding: 0.3rem 1rem;
     color: #2c3e50;
     border: 1px solid #9a9eb0;
     border-radius: 3px;
+
+    &.success {
+      color: #fff;
+      background-color: #28a745;
+      border-color: #28a745;
+    }
   }
 </style>

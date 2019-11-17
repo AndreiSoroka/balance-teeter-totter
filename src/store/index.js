@@ -126,6 +126,7 @@ export default new Vuex.Store({
       }
       if (state.battleGround.level >= MAP_LEVELS) {
         commit('SAVE_HISTORY');
+        commit('INCREASE_COUNT');
         commit('NEW_FIGURE');
       } else {
         if (state.battleGround.count) {
@@ -152,6 +153,7 @@ export default new Vuex.Store({
       return speed > 100 ? speed : 100;
     },
     rotate(state) {
+      // If I understand task
       const { player, computer } = state.battleGround.history;
 
       if (player.power === computer.power) return 0;
@@ -163,7 +165,42 @@ export default new Vuex.Store({
         return moreOnPlayer ? -consts.MAX_ANGLE - 1 : consts.MAX_ANGLE + 1;
       }
 
-      return consts.MAX_ANGLE / consts.MAX_POWER * difference * (moreOnPlayer ? 1 : -1);
+      return consts.MAX_ANGLE / consts.MAX_POWER * difference * (moreOnPlayer ? -1 : 1);
+    },
+    scoreGame(state) {
+      return Math.floor((state.battleGround.count - 1) / 8);
+    },
+    mapItems(state) {
+      const playerItems = state.battleGround.history.player.items;
+      const computerItems = state.battleGround.history.computer.items;
+
+      if (!playerItems.length || !computerItems.length) {
+        return [];
+      }
+
+      const mapItems = (new Array(18))
+        .fill(0)
+        .map(() => ([]));
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const item of playerItems) {
+        const currentPosition = mapItems[item.position];
+        currentPosition.push({
+          ...item,
+          top: (currentPosition.length + 1) * -consts.ITEM_SIZE,
+        });
+      }
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const item of computerItems) {
+        const currentPosition = mapItems[9 + item.position];
+        currentPosition.push({
+          ...item,
+          top: (currentPosition.length + 1) * -consts.ITEM_SIZE,
+        });
+      }
+
+      return mapItems;
     },
   },
 });

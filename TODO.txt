@@ -1,4 +1,0 @@
-- won
-- score
-- show items
-- speed
