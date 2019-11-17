@@ -4,7 +4,7 @@
       <div class="start-view" @click="toggleStart" v-if="!isStarted">
         Start
       </div>
-      <div class="battle-ground__player" v-show="player.figureType">
+      <div class="battle-ground__player" v-show="player.figureType && isStarted">
         <item
           class="battle-ground__item"
           :figure="player.figureType"
@@ -12,7 +12,7 @@
           :style="playerPosition"
         />
       </div>
-      <div class="battle-ground__computer" v-show="computer.figureType">
+      <div class="battle-ground__computer" v-show="computer.figureType && isStarted">
         <item
           class="battle-ground__item"
           :figure="computer.figureType"

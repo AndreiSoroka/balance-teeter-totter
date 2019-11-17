@@ -21,7 +21,6 @@ const templateBattleGround = () => ({
 
 export default new Vuex.Store({
   state: {
-    isStarted: false,
     timeoutId: null,
     battleGround: {
       level: 0,
@@ -31,9 +30,6 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    TOGGLE_START(state) {
-      state.isStarted = !state.isStarted;
-    },
     SET_TIMEOUT(state, value) {
       state.timeoutId = value;
     },
@@ -110,11 +106,11 @@ export default new Vuex.Store({
       }
     },
     start({ commit, dispatch }) {
-      dispatch('nextStep');
       const timeout = setTimeout(() => {
         dispatch('start');
       }, 1000);
       commit('SET_TIMEOUT', timeout);
+      dispatch('nextStep');
     },
     stop({ state, commit }) {
       clearTimeout(state.timeoutId);
