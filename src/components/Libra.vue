@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="libra-base">
-      <div class="libra-base__description">Level:<br/>{{ scoreGame }}</div>
+      <div class="libra-base__description">Level:<br/>{{ scoreGame > 0 ? scoreGame : 0 }}</div>
     </div>
   </div>
 </template>

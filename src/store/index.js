@@ -106,7 +106,7 @@ export default new Vuex.Store({
       const { player, computer, history } = state.battleGround;
       history.player.power += (consts.MAP_SIZE - player.position + 1) * player.figureWeight;
       history.player.items.push({ ...player });
-      history.computer.power += (computer.position) * computer.figureWeight;
+      history.computer.power += (computer.position + 1) * computer.figureWeight;
       history.computer.items.push({ ...computer });
     },
   },
