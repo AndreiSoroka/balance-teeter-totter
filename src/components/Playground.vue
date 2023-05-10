@@ -177,7 +177,7 @@ export default {
         this.isLose = true;
         this.twitterLink = shareTwitter({
           text: `WOW! My Score Game: ${this.scoreGame} Level!`,
-          url: 'https://vue-balance-teeter-totter.herokuapp.com/',
+          url: 'https://balance-teeter-totter.andreisoroka.com/',
         });
         this.stop();
       }
